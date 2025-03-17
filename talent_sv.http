@@ -1,0 +1,6 @@
+@talent_sv_HostAddress = http://localhost:5265
+
+GET {{talent_sv_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
