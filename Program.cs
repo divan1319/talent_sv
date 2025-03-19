@@ -8,11 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("MysqlConnection") 
-    ?? throw new InvalidOperationException("Connection string 'MysqlConnection' not found.");
+
 
 builder.Services.AddDbContext<TalentContext>(options =>
-    options.UseMySQL(connectionString)
+    options.UseMySQL(builder.Configuration.GetConnectionString("mysqlConnection"))
 );
 
 var app = builder.Build();
