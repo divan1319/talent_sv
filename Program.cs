@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Talent_SV.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,9 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
 
-
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 40));
 builder.Services.AddDbContext<TalentContext>(options =>
-    options.UseMySQL(builder.Configuration.GetConnectionString("mysqlConnection"))
+    options.UseMySql(builder.Configuration.GetConnectionString("mysqlConnection"), serverVersion)
 );
 
 var app = builder.Build();

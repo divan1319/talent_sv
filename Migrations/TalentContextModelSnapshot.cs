@@ -2,7 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Talent_SV.Models;
 
 #nullable disable
 
@@ -18,20 +20,30 @@ namespace talent_sv.Migrations
                 .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Coleccion", b =>
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("Talent_SV.Models.Coleccion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("CoverImage")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Nombre")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -43,20 +55,26 @@ namespace talent_sv.Migrations
                     b.ToTable("Colecciones");
                 });
 
-            modelBuilder.Entity("Fotos", b =>
+            modelBuilder.Entity("Talent_SV.Models.Foto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("ColeccionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Descripcion")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("Url")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -65,39 +83,49 @@ namespace talent_sv.Migrations
                     b.ToTable("Fotos");
                 });
 
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("Talent_SV.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<bool>("Activo")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Avatar")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Email")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime>("FechaRegistro")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Nombre")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Password")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Coleccion", b =>
+            modelBuilder.Entity("Talent_SV.Models.Coleccion", b =>
                 {
-                    b.HasOne("User", "User")
-                        .WithMany("Colecciones")
+                    b.HasOne("Talent_SV.Models.User", "User")
+                        .WithMany("Coleccions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -105,9 +133,9 @@ namespace talent_sv.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Fotos", b =>
+            modelBuilder.Entity("Talent_SV.Models.Foto", b =>
                 {
-                    b.HasOne("Coleccion", "Coleccion")
+                    b.HasOne("Talent_SV.Models.Coleccion", "Coleccion")
                         .WithMany("Fotos")
                         .HasForeignKey("ColeccionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -116,14 +144,14 @@ namespace talent_sv.Migrations
                     b.Navigation("Coleccion");
                 });
 
-            modelBuilder.Entity("Coleccion", b =>
+            modelBuilder.Entity("Talent_SV.Models.Coleccion", b =>
                 {
                     b.Navigation("Fotos");
                 });
 
-            modelBuilder.Entity("User", b =>
+            modelBuilder.Entity("Talent_SV.Models.User", b =>
                 {
-                    b.Navigation("Colecciones");
+                    b.Navigation("Coleccions");
                 });
 #pragma warning restore 612, 618
         }
