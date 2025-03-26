@@ -10,7 +10,8 @@ namespace Talent_SV.Controllers
     public class AuthController : ControllerBase
     {
         public static User user = new ();
-        [HttpPost]
+        
+        [HttpPost("register")]
         public ActionResult<User> Register(UserDto userDto)
         {
             var hashedPass = new PasswordHasher<User>().HashPassword(user, userDto.Password);
